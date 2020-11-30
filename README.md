@@ -1,3 +1,7 @@
+## Elk_Stack_Project
+
+In this project, I set up a small virtual network infrastructure and configured a cloud monitoring system via an ELK stack server.
+
 ## Automated ELK Stack Deployment
 
 The files in this repository were used to configure the network depicted below.
@@ -8,32 +12,6 @@ The files in this repository were used to configure the network depicted below.
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the playbook file may be used to install only certain pieces of it, such as Filebeat.
 
 ![Filebeat Playbook](Ansible/filebeat-playbook.yml)
-
----
-- name: installing and launching filebeat
-  hosts: elk
-  become: yes
-  tasks:
-
-  - name: download filebeat deb
-    command: curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.6.1-amd64.deb
-
-  - name: install filebeat deb
-    command: dpkg -i filebeat-7.6.1-amd64.deb
-
-  - name: drop in filebeat.yml
-    copy:
-      src: /etc/ansible/files/filebeat-config.yml
-      dest: /etc/filebeat/filebeat.yml
-
-  - name: enable and configure system module
-    command: filebeat modules enable system
-
-  - name: setup filebeat
-    command: filebeat setup
-
-  - name: start filebeat service
-    command: sudo service filebeat start
 
 This document contains the following details:
 - Description of the Topologu
@@ -57,7 +35,6 @@ Integrating an ELK server allows users to easily monitor the vulnerable VMs for 
 - What does Metricbeat record? Metricbeat records and collects operating machine metrics.
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
 | Name                 | Function      | IP Address       | Operating System |
 |----------------------|---------------|------------------|------------------|
@@ -111,16 +88,16 @@ The following screenshot displays the result of running `docker ps` after succes
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
-- Web-1 10.1.0.8
-- Web-2 10.1.0.9
-- ElkVM 10.0.0.4
+- Web-1: 10.1.0.8
+- Web-2: 10.1.0.9
+- ElkVM: 10.0.0.4
 
 We have installed the following Beats on these machines:
 - Filebeat
 - Metricbeat
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+
 - Filebeat: monitors the log files or locations that you specify, such as Syslogs, Sudo commands, SSH logins, and New users and groups. This is illustrated by Kibana below:
 
 ![Filebeat Kibana](Ansible/filebeat_dash.png)
@@ -133,13 +110,24 @@ These Beats allow us to collect the following information from each machine:
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+- Copy the .yml file to the ansible directory.
+- Update the /etc/ansible/ansible.cfg file to include...
+- Run the playbook, and navigate to Kibana to check that the installation worked as expected.
 
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
+- Which file is the playbook? the .yml file
+- Where do you copy it? /etc/ansible, /etc/ansible/files, or /etc/ansible/roles depending on the .yml   file. Filebeat and Metricbeat are stored in the /etc/ansible/roles directory.
+- Which files do you update to make Ansible run the playbook on a specific machine? 
+  /etc/ansible/hosts and /etc/ansible/ansible.cfg
+- How do I specify which machine to install the ELK server on versus which to install Filebeat on? 
+  By editing the /etc/ansible/hosts file with the approriate IP addresses.
+- Which URL do you navigate to in order to check that the ELK server is running?
+  http://<local.host>/app/kibana#/home
+As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc.
 
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+- nano /etc/ansible/ansible.cfg
+- nano /etc/ansible/hosts
+- ansible all -m ping
+- nano <your-playbook.yml>
+- ansible-playbook <your-playbook.yml>
+- ssh ansible@<XX.X.X.X>
+- curl <local.host>/setup.php
