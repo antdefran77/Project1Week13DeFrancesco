@@ -104,8 +104,6 @@ The playbook implements the following tasks:
    - 5044:5044
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
-**Note**: The following image link needs to be updated. Replace `Ansible/docker_ps.png'  
-
 
 (Ansible/docker_ps.png)
 
