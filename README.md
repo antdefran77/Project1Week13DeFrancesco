@@ -7,6 +7,8 @@ The files in this repository were used to configure the network depicted below.
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the playbook file may be used to install only certain pieces of it, such as Filebeat.
 
+![Filebeat Playbook](Ansible/filebeat-playbook.yml)
+
 ---
 - name: installing and launching filebeat
   hosts: elk
@@ -109,13 +111,23 @@ The following screenshot displays the result of running `docker ps` after succes
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
-- _TODO: List the IP addresses of the machines you are monitoring_
+- Web-1 10.1.0.8
+- Web-2 10.1.0.9
+- ElkVM 10.0.0.4
 
 We have installed the following Beats on these machines:
-- _TODO: Specify which Beats you successfully installed_
+- Filebeat
+- Metricbeat
 
 These Beats allow us to collect the following information from each machine:
 - _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+- Filebeat: monitors the log files or locations that you specify, such as Syslogs, Sudo commands, SSH logins, and New users and groups. This is illustrated by Kibana below:
+
+![Filebeat Kibana](Ansible/filebeat_dash.png)
+
+- Metricbeat: monitors the metrics and statistics of the operating system, such as CPU usage, memory usage, and docker containers. This is demonstrated by Kibana below:
+
+![Metricbeat Kibana](Ansible/metricbeat_dash.png)
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
